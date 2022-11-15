@@ -1,10 +1,10 @@
 attrs==22.1.0
-# Editable Git install with no remote (bookmarks==1.0.0)
--e /home/dreamer20/dev/bookmarks
+-e git+https://github.com/dreamer20/bookmarks.git@83c50cf5d9d9c5d78ceaa67d6dbc7aff167b64e6#egg=bookmarks
 click==8.1.3
 coverage==6.5.0
 exceptiongroup==1.0.2
 Flask==2.2.2
+gunicorn==20.1.0
 iniconfig==1.1.1
 itsdangerous==2.1.2
 Jinja2==3.1.2
