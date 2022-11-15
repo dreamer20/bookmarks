@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id serial PRIMARY KEY,
-    login varchar(16) UNIQUE NOT NULL CHECK (regexp_like(login, '^[a-zA-Z]\w{2,}$')),
+    login varchar(16) UNIQUE NOT NULL CHECK (login ~ '^[a-zA-Z]\w{2,}'),
     hashed_password text NOT NULL
 );
 
