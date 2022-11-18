@@ -2,6 +2,17 @@
 
 {% block content %}
 <h1>Index</h1>
-    Index page
+    {% if g.user %}
+        <div class="row">
+            <div class="col-md-6 col-offset-3">
+                <ul>
+                    {% for bookmark in bookmarks %}
+                        <li><a href="{{ bookmark['url'] }}">{{ bookmark['url'] }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+        
 {% endblock content %}
     

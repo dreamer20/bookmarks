@@ -1,5 +1,6 @@
 import psycopg2 as pg2
 import re
+import functools
 from .db_api import register_user, get_user_by_id, get_user_by_login
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import (
@@ -14,10 +15,14 @@ def register():
     if request.method == 'POST':
         login = request.form['login']
         password = request.form['password']
+        password2 = request.form['password2']
         error = None
 
         if len(password) < 8:
             error = 'Password must be at least 8 symbols.'
+
+        if password != password2:
+            error = "Passwords doesn't match."
 
         if re.match(r'^[a-zA-Z]\w{2,15}$', login) is None:
             error = (
@@ -78,3 +83,14 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = get_user_by_id(user_id)
+
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view

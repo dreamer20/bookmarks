@@ -10,9 +10,10 @@ def create_app(test_config=None):
     if test_config:
         app.config.from_mapping(test_config)
 
-    from . import auth, index
+    from . import auth, index, bookmark
     app.register_blueprint(auth.bp)
     app.register_blueprint(index.bp)
+    app.register_blueprint(bookmark.bp)
 
     from . import db
     db.init_app(app)
