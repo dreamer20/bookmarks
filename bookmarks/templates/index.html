@@ -1,15 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Index</h1>
+<h1>Bookmarks</h1>
     {% if g.user %}
         <div class="row">
-            <div class="col-md-6 col-offset-3">
-                <ul>
-                    {% for bookmark in bookmarks %}
-                        <li><a href="{{ bookmark['url'] }}">{{ bookmark['url'] }}</a></li>
-                    {% endfor %}
-                </ul>
+            <div class="col-md-8 col-md-offset-2">
+            <div class="list-group">
+                {% for bookmark in bookmarks %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <a href="{{ bookmark['url'] }}" target="_blank">
+                                    <img height="32" width="32" class="link-icon" src="{{ bookmark['icon_url'] }}"/>
+                                    <span class="text-primary">{{ bookmark['title'] }}</span>
+                                </a>
+                                
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="btn-group pull-right">
+                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    ...</span>
+                                  </button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="{{ url_for('bookmark.delete', bookmark_id=bookmark['id']) }}">Delete</a></li>
+                                  </ul>
+                                </div>                                
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
             </div>
         </div>
     {% endif %}

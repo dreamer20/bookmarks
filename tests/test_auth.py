@@ -7,7 +7,8 @@ def test_register(app, client):
     """ Register user """
     response = client.post(
         '/auth/register',
-        data={'login': 'new_user', 'password': 'password1234', 'password2': 'password1234'}
+        data={'login': 'new_user', 'password': 'password1234', 'password2': 'password1234'},
+        follow_redirects=True
     )
 
     assert response.status_code == 200
@@ -28,6 +29,7 @@ def test_register_validation(client, login, password, password2, message):
     response = client.post(
         '/auth/register',
         data={'login': login, 'password': password, 'password2': password2}
+
     )
 
     assert message in response.data

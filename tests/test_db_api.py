@@ -12,7 +12,7 @@ def test_register_user(app):
 def test_add_bookmark(app):
     with app.app_context():
         user = db_api.get_user_by_login('user1')
-        bookmark = db_api.add_bookmark('http://test.com', user['id'])
+        bookmark = db_api.add_bookmark('http://test.com', 'some title', 'http://test.com/favicon.ico', user['id'])
 
         assert bookmark['url'] == 'http://test.com'
 
@@ -20,8 +20,8 @@ def test_add_bookmark(app):
 def test_get_bookmarks(app):
     with app.app_context():
         user = db_api.get_user_by_login('user1')
-        db_api.add_bookmark('http://test.com', user['id'])
-        db_api.add_bookmark('http://testtest.com', user['id'])
+        db_api.add_bookmark('http://test.com', 'Some title', 'http://test.com/favicon.ico', user['id'])
+        db_api.add_bookmark('http://testtest.com', 'Some title', 'http://testtest.com/favicon.ico', user['id'])
         bookmarks = db_api.get_bookmarks(user['id'])
 
         assert isinstance(bookmarks, list)

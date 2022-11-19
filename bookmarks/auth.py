@@ -38,7 +38,7 @@ def register():
             except Exception:
                 error = 'Error has occurred. Try again later.'
             else:
-                redirect(url_for('auth.login'))
+                return redirect(url_for('auth.login'))
 
         if error:
             flash(error)

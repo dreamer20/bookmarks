@@ -19,8 +19,7 @@ def get_random_user():
     cursor = db.cursor(cursor_factory=extras.DictCursor)
 
     cursor.execute(
-        'SELECT * FROM users',
-        (user_id, )
+        'SELECT * FROM users'
     )
     user = cursor.fetchone()
 
@@ -54,13 +53,14 @@ def get_user_by_id(user_id):
     return user
 
 
-def add_bookmark(url, user_id):
+def add_bookmark(url, title, icon_url, user_id):
     db = get_db()
     cursor = db.cursor(cursor_factory=extras.DictCursor)
 
     cursor.execute(
-        'INSERT INTO bookmarks (url, owner_id) VALUES (%s, %s) RETURNING *',
-        (url, user_id, )
+        'INSERT INTO bookmarks (url, title, icon_url, owner_id) \
+         VALUES (%s, %s, %s, %s) RETURNING *',
+        (url, title, icon_url, user_id, )
     )
     bookmark = cursor.fetchone()
 
@@ -84,3 +84,32 @@ def get_bookmarks(user_id):
     db.commit()
 
     return bookmarks
+
+
+def get_bookmark_by_id(bookmark_id):
+    db = get_db()
+    cursor = db.cursor(cursor_factory=extras.DictCursor)
+
+    cursor.execute(
+        'SELECT * FROM bookmarks WHERE id = %s',
+        (bookmark_id, )
+    )
+    bookmark = cursor.fetchone()
+
+    cursor.close()
+    db.commit()
+
+    return bookmark
+
+
+def delete_bookmark(bookmark_id, user_id):
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute(
+        'DELETE FROM bookmarks WHERE id = %s AND owner_id = %s',
+        (bookmark_id, user_id, )
+    )
+
+    cursor.close()
+    db.commit()

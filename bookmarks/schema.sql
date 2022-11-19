@@ -10,5 +10,7 @@ CREATE TABLE users (
 CREATE TABLE bookmarks (
     id serial PRIMARY KEY,
     url text NOT NULL CHECK (url ~ '^http(s?)://'),
+    title text NOT NULL,
+    icon_url text,
     owner_id integer REFERENCES users
 );
